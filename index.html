@@ -13,13 +13,13 @@
         <h1>Generate subtitles from a video file</h1>
         <p class="lead">
           Upload a video, capture the audio track, and generate a WebVTT subtitle file using
-          OpenAI's Whisper API. Everything runs in your browser—your API key stays local.
+          Deepgram's transcription API. Everything runs in your browser—your API key stays local.
         </p>
       </div>
       <div class="hero-card">
         <h2>Quick start</h2>
         <ol>
-          <li>Paste your OpenAI API key.</li>
+          <li>Paste your Deepgram API key.</li>
           <li>Upload a video file (MP4, MOV, WebM).</li>
           <li>Generate and download your subtitle track.</li>
         </ol>
@@ -30,22 +30,21 @@
       <section class="panel">
         <h2>1. Provide your API key</h2>
         <label class="field">
-          <span>OpenAI API key</span>
-          <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
+          <span>Deepgram API key</span>
+          <input type="password" id="apiKey" placeholder="dg_..." autocomplete="off" />
         </label>
         <div class="field-row">
           <label class="field">
             <span>Language hint (optional)</span>
             <input type="text" id="language" placeholder="e.g. en, es" />
           </label>
-          <label class="field">
-            <span>Temperature</span>
-            <input type="number" id="temperature" min="0" max="1" step="0.1" value="0" />
-          </label>
         </div>
         <p class="helper">
           Your key is used only to call the transcription API directly from the browser. Do not
           share it publicly.
+        </p>
+        <p class="helper">
+          Need a key? Visit <a href="https://console.deepgram.com/" target="_blank" rel="noreferrer">console.deepgram.com</a>.
         </p>
       </section>
 
@@ -93,7 +92,7 @@
         <ul class="list">
           <li>Your browser captures the video's audio track using <code>captureStream()</code>.</li>
           <li>The audio is recorded as a WebM file in-memory.</li>
-          <li>The file is sent to OpenAI's transcription endpoint with <code>response_format=vtt</code>.</li>
+          <li>The file is sent to Deepgram's transcription endpoint and returns WebVTT text.</li>
           <li>The resulting WebVTT file is attached back to the video and is ready to download.</li>
         </ul>
       </section>

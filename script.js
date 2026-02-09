@@ -1,6 +1,5 @@
 const apiKeyInput = document.getElementById("apiKey");
 const languageInput = document.getElementById("language");
-const temperatureInput = document.getElementById("temperature");
 const videoInput = document.getElementById("videoInput");
 const video = document.getElementById("video");
 const generateBtn = document.getElementById("generateBtn");
@@ -121,31 +120,34 @@ const transcribeAudio = async (audioBlob) => {
     throw new Error("Missing API key.");
   }
 
-  const formData = new FormData();
-  formData.append("file", audioBlob, "audio.webm");
-  formData.append("model", "whisper-1");
-  formData.append("response_format", "vtt");
-
   const language = languageInput.value.trim();
+  const params = new URLSearchParams({
+    model: "nova-2",
+    smart_format: "true",
+    punctuate: "true",
+    utterances: "true",
+    output_format: "vtt",
+  });
   if (language) {
-    formData.append("language", language);
+    params.set("language", language);
   }
 
-  const temperature = temperatureInput.value.trim();
-  if (temperature) {
-    formData.append("temperature", temperature);
-  }
-
-  const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+  const response = await fetch(`https://api.deepgram.com/v1/listen?${params.toString()}`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Token ${apiKey}`,
+      "Content-Type": audioBlob.type || "audio/webm",
     },
-    body: formData,
+    body: audioBlob,
   });
 
   if (!response.ok) {
     const errorText = await response.text();
+    if (response.status === 401) {
+      throw new Error(
+        "Authentication failed. Double-check that your Deepgram API key is valid and active."
+      );
+    }
     throw new Error(`Transcription failed: ${errorText}`);
   }
 
