@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Subtitle Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">GitHub Pages Demo</p>
+        <h1>Generate subtitles from a video file</h1>
+        <p class="lead">
+          Upload a video, capture the audio track, and generate a WebVTT subtitle file using
+          Deepgram's transcription API. Everything runs in your browser—your API key stays local.
+        </p>
+      </div>
+      <div class="hero-card">
+        <h2>Quick start</h2>
+        <ol>
+          <li>Paste your Deepgram API key.</li>
+          <li>Upload a video file (MP4, MOV, WebM).</li>
+          <li>Generate and download your subtitle track.</li>
+        </ol>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>1. Provide your API key</h2>
+        <label class="field">
+          <span>Deepgram API key</span>
+          <input type="password" id="apiKey" placeholder="dg_..." autocomplete="off" />
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span>Language hint (optional)</span>
+            <input type="text" id="language" placeholder="e.g. en, es" />
+          </label>
+        </div>
+        <p class="helper">
+          Your key is used only to call the transcription API directly from the browser. Do not
+          share it publicly.
+        </p>
+        <p class="helper">
+          Need a key? Visit <a href="https://console.deepgram.com/" target="_blank" rel="noreferrer">console.deepgram.com</a>.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>2. Upload your video</h2>
+        <label class="field file">
+          <span>Video file</span>
+          <input type="file" id="videoInput" accept="video/*" />
+        </label>
+        <div class="video-area">
+          <video id="video" controls crossorigin="anonymous"></video>
+          <div class="video-meta">
+            <p><strong>Tip:</strong> Make sure audio is present in the file.</p>
+            <p id="videoStatus">No video loaded.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>3. Generate subtitles</h2>
+        <div class="actions">
+          <button id="generateBtn" class="primary" disabled>Generate subtitles</button>
+          <button id="stopBtn" class="ghost" disabled>Stop recording</button>
+        </div>
+        <div class="status" id="status">Waiting for input.</div>
+        <div class="progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="output">
+          <div>
+            <h3>Subtitle preview</h3>
+            <textarea id="subtitleOutput" rows="10" readonly></textarea>
+          </div>
+          <div class="download">
+            <h3>Download</h3>
+            <a id="downloadLink" class="primary" download="subtitles.vtt" href="#" aria-disabled="true">Download .vtt</a>
+            <button id="copyBtn" class="ghost" disabled>Copy to clipboard</button>
+            <p class="helper" id="downloadHint">Generate subtitles to enable download.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>How it works</h2>
+        <ul class="list">
+          <li>Your browser captures the video's audio track using <code>captureStream()</code>.</li>
+          <li>The audio is recorded as a WebM file in-memory.</li>
+          <li>The file is sent to Deepgram's transcription endpoint and returns WebVTT text.</li>
+          <li>The resulting WebVTT file is attached back to the video and is ready to download.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built for GitHub Pages. For production use, proxy the API requests through your own
+        backend to keep keys secure.
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
